@@ -213,7 +213,7 @@ func TestMemoryBlobStorage_ListKeys(t *testing.T) {
 
 	// Test local changes
 	assert.NoError(t, store.CreateOrUpdate(network1, []blobstore.Blob{blob1, blob2}))
-	keys, err := store.ListKeys(network1, type1)
+	keys, err := blobstore.ListKeys(store, network1, type1)
 	assert.Equal(t, []string{key1, key2}, keys)
 
 	assert.NoError(t, store.Commit())
@@ -221,12 +221,12 @@ func TestMemoryBlobStorage_ListKeys(t *testing.T) {
 	assert.NoError(t, err)
 
 	// Test committed changes
-	keys, err = store.ListKeys(network1, type1)
+	keys, err = blobstore.ListKeys(store, network1, type1)
 	assert.Equal(t, []string{key1, key2}, keys)
 
 	// Test locally deleted changes
 	assert.NoError(t, store.Delete(network1, []storage.TypeAndKey{{type1, key1}}))
-	keys, err = store.ListKeys(network1, type1)
+	keys, err = blobstore.ListKeys(store, network1, type1)
 	assert.Equal(t, []string{key2}, keys)
 }
 
