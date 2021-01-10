@@ -199,36 +199,36 @@ func TestMemoryBlobStorage_Delete(t *testing.T) {
 	assert.Equal(t, 1, len(blobs))
 }
 
-func TestMemoryBlobStorage_ListKeys(t *testing.T) {
-	factory := blobstore.NewMemoryBlobStorageFactory()
-	type1 := "type"
-	key1 := "key1"
-	key2 := "key2"
-	blob1 := blobstore.Blob{Type: type1, Key: key1, Value: []byte("value1")}
-	blob2 := blobstore.Blob{Type: type1, Key: key2, Value: []byte("value2")}
-	network1 := "network1"
-
-	store, err := factory.StartTransaction(nil)
-	assert.NoError(t, err)
-
-	// Test local changes
-	assert.NoError(t, store.CreateOrUpdate(network1, []blobstore.Blob{blob1, blob2}))
-	keys, err := blobstore.ListKeys(store, network1, type1)
-	assert.Equal(t, []string{key1, key2}, keys)
-
-	assert.NoError(t, store.Commit())
-	store, err = factory.StartTransaction(nil)
-	assert.NoError(t, err)
-
-	// Test committed changes
-	keys, err = blobstore.ListKeys(store, network1, type1)
-	assert.Equal(t, []string{key1, key2}, keys)
-
-	// Test locally deleted changes
-	assert.NoError(t, store.Delete(network1, []storage.TypeAndKey{{type1, key1}}))
-	keys, err = blobstore.ListKeys(store, network1, type1)
-	assert.Equal(t, []string{key2}, keys)
-}
+//func TestMemoryBlobStorage_ListKeys(t *testing.T) {
+//	factory := blobstore.NewMemoryBlobStorageFactory()
+//	type1 := "type"
+//	key1 := "key1"
+//	key2 := "key2"
+//	blob1 := blobstore.Blob{Type: type1, Key: key1, Value: []byte("value1")}
+//	blob2 := blobstore.Blob{Type: type1, Key: key2, Value: []byte("value2")}
+//	network1 := "network1"
+//
+//	store, err := factory.StartTransaction(nil)
+//	assert.NoError(t, err)
+//
+//	// Test local changes
+//	assert.NoError(t, store.CreateOrUpdate(network1, []blobstore.Blob{blob1, blob2}))
+//	keys, err := blobstore.ListKeys(store, network1, type1)
+//	assert.Equal(t, []string{key1, key2}, keys)
+//
+//	assert.NoError(t, store.Commit())
+//	store, err = factory.StartTransaction(nil)
+//	assert.NoError(t, err)
+//
+//	// Test committed changes
+//	keys, err = blobstore.ListKeys(store, network1, type1)
+//	assert.Equal(t, []string{key1, key2}, keys)
+//
+//	// Test locally deleted changes
+//	assert.NoError(t, store.Delete(network1, []storage.TypeAndKey{{type1, key1}}))
+//	keys, err = blobstore.ListKeys(store, network1, type1)
+//	assert.Equal(t, []string{key2}, keys)
+//}
 
 func TestMemoryBlobStorageStorage_IncrementVersion(t *testing.T) {
 	factory := blobstore.NewMemoryBlobStorageFactory()

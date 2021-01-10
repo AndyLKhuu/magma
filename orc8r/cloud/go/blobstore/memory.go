@@ -125,20 +125,20 @@ func (store *memoryBlobStorage) Rollback() error {
 
 // ListKeys grabs keys from the shared map first, and then updates the keys
 // with changes from the ongoing transaction
-func (store *memoryBlobStorage) ListKeys(networkID string, typeVal string) ([]string, error) {
-	store.RLock()
-	defer store.RUnlock()
-
-	if err := store.validateTx(); err != nil {
-		return nil, err
-	}
-
-	store.shared.RLock()
-	keySet := store.listKeysFromShared(networkID, typeVal)
-	store.shared.RUnlock()
-
-	return store.updateKeysWithLocalChangesUnsafe(networkID, typeVal, keySet), nil
-}
+//func (store *memoryBlobStorage) ListKeys(networkID string, typeVal string) ([]string, error) {
+//	store.RLock()
+//	defer store.RUnlock()
+//
+//	if err := store.validateTx(); err != nil {
+//		return nil, err
+//	}
+//
+//	store.shared.RLock()
+//	keySet := store.listKeysFromShared(networkID, typeVal)
+//	store.shared.RUnlock()
+//
+//	return store.updateKeysWithLocalChangesUnsafe(networkID, typeVal, keySet), nil
+//}
 
 func (store *memoryBlobStorage) Get(networkID string, id storage.TypeAndKey) (Blob, error) {
 	multiRet, err := store.GetMany(networkID, []storage.TypeAndKey{id})

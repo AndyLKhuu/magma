@@ -116,7 +116,6 @@ func TestBlobstoreStore_GetAllTenants(t *testing.T) {
 	}).Return([]blobstore.Blob{invalidBlob}, nil)
 	retTenants, err = s.GetAllTenants()
 	assert.EqualError(t, err, `non-integer key: strconv.ParseInt: parsing "word": invalid syntax`)
-
 }
 
 func TestBlobstoreStore_SetTenant(t *testing.T) {
