@@ -69,7 +69,7 @@ func TestBlobstoreStore_GetTenant(t *testing.T) {
 func TestBlobstoreStore_GetAllTenants(t *testing.T) {
 	// Successful GetAll
 	txStore, s := setupTestStore()
-	txStore.On("ListKeys", networkWildcard, tenants.TenantInfoType).Return([]string{"0", "1"}, nil)
+	//txStore.On("ListKeys", networkWildcard, tenants.TenantInfoType).Return([]string{"0", "1"}, nil)
 	txStore.On("GetMany", networkWildcard, []storage.TypeAndKey{
 		{
 			Type: tenants.TenantInfoType,
@@ -89,13 +89,13 @@ func TestBlobstoreStore_GetAllTenants(t *testing.T) {
 
 	// Error in ListKeys
 	txStore, s = setupTestStore()
-	txStore.On("ListKeys", networkWildcard, tenants.TenantInfoType).Return(nil, errors.New("error"))
+	//txStore.On("ListKeys", networkWildcard, tenants.TenantInfoType).Return(nil, errors.New("error"))
 	retTenants, err = s.GetAllTenants()
 	assert.EqualError(t, err, "error")
 
 	// Error in GetMany
 	txStore, s = setupTestStore()
-	txStore.On("ListKeys", networkWildcard, tenants.TenantInfoType).Return([]string{"0"}, nil)
+	//txStore.On("ListKeys", networkWildcard, tenants.TenantInfoType).Return([]string{"0"}, nil)
 	txStore.On("GetMany", networkWildcard, []storage.TypeAndKey{
 		{
 			Type: tenants.TenantInfoType,
@@ -107,7 +107,7 @@ func TestBlobstoreStore_GetAllTenants(t *testing.T) {
 
 	// Non-integer key in tenant
 	txStore, s = setupTestStore()
-	txStore.On("ListKeys", networkWildcard, tenants.TenantInfoType).Return([]string{"0"}, nil)
+	//txStore.On("ListKeys", networkWildcard, tenants.TenantInfoType).Return([]string{"0"}, nil)
 	txStore.On("GetMany", networkWildcard, []storage.TypeAndKey{
 		{
 			Type: tenants.TenantInfoType,
